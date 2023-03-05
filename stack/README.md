@@ -5,7 +5,7 @@
 
 ## Proceso de instalación
 Se expondrán los siguientes puertos:
-- 443: HAProxy TCP HTTPS
+- 443: Web TCP HTTPS
 - 5000: Nexus Registry
 
 ### Clonemos el proyecto git al directorio actual
@@ -32,11 +32,11 @@ vim .env
 ### Creamos por primera vez directorios persistidos para docker
 - Ver docker-compose.yml.dist para lista completa de volúmenes persistidos
 ```
-VOl_NGINX_LOGS=./volumes/apache2/logs
-VOl_NEXUS_DATA=./volumes/nexus/data
+mkdir -p ./volumes/apache2/logs
+mkdir -p ./volumes/nexus/data
 ```
 
-### Cambiar permisos www-data en directorios persistidos
+### Cambiar permisos en directorios persistidos
 ```
 sudo chown www-data:www-data ./volumes/apache2/logs
 sudo chown -R 200 ./volumes/nexus/data
