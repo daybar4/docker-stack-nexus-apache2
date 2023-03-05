@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+
+  web-proxy:
+    container_name:  web-proxy
+    build: ./webspace
+    ports:
+      - ${PORT_HTTPS}:443 ## Open only secure connection
+      - ${PORT_NEXUS_REGISTRY}:5000
+    links:
+      - nexus-ci
+    volumes:
+      - ${VOl_APACHE_LOGS}:/var/log/apache2
+
+  nexus-ci:
+    container_name:  nexus-ci
+    image: sonatype/nexus3:3.48.0
+    environment: ## Pass JVM arguments to the startup script
+      INSTALL4J_ADD_VM_PARAMS: "-Xms2703m -Xmx2703m -XX:MaxDirectMemorySize=2703m -Djava.util.prefs.userRoot=/javaprefs"
+    volumes:
+      - ${VOl_NEXUS_DATA}:/nexus-data ## Used for configuration, logs, and storage
+    ## Installation of Nexus is to /opt/sonatype/nexus. Not need persistency.
